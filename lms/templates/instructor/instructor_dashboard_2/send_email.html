@@ -3,33 +3,13 @@
 from django.utils.translation import ugettext as _
 from openedx.core.djangolib.markup import HTML
 %>
-<style>
-    .eol_welcome_mail_hide{
-        display: none;
-    }
-</style>
+
 <div class="vert-left send-email" id="section-send-email">
-    <input id="welcome_mail_data" type="text" value="${section_data['welcome_data']}" hidden>
     <ul class="list-fields">
-        % if 'welcome-mail-save' in section_data:
-            <li class="field eol_welcome_mail_hide">
-                <div class="send_to_list">${_("Habilitar:")}</div>
-            </li>
-            <li class="field eol_welcome_mail_hide">
-                <fieldset>
-                    <ul role="group" class="email-targets-primary">
-                        <li>
-                            <input type="checkbox" name="is_active" value="true" id="is_active" onchange="checkbox_welcome_mail(this);">
-                            <label for="is_active">${_("Habilitar correo de bienvenida")}</label>
-                        </li>
-                    </ul>
-                </fieldset>
-            </li>
-        % endif
-        <li class="field eol_send_email_hide">
+        <li class="field">
             <div class="send_to_list">${_("Send to:")}</div>
         </li>
-        <li class="field eol_send_email_hide">
+        <li class="field">
         <fieldset>
             <legend class="sr">${_("Send to:")}</legend>
             <ul role="group" class="email-targets-primary">
@@ -79,20 +59,31 @@ from openedx.core.djangolib.markup import HTML
             %endif
         </fieldset>
         </li>
-        <li class="field eol_welcome_mail_checkbox_hide">
+        <li class="field">
             <label>
                 ${_("Subject: ")}
                 <br/>
                 %if subject:
-                <input class="eol_send_email_hide" type="text" id="id_subject" name="subject" maxlength="128" size="75" value="${subject}">
+                <input type="text" id="id_subject" name="subject" maxlength="128" size="75" value="${subject}">
                 %else:
-                <input class="eol_send_email_hide" type="text" id="id_subject" name="subject" maxlength="128" size="75">
+                <input type="text" id="id_subject" name="subject" maxlength="128" size="75">
                 %endif
-                <input class="eol_welcome_mail_hide" type="text" id="id_welcome_subject" name="welcome_subject" maxlength="128" size="75" value="">
                 <span class="tip">${_("(Maximum 128 characters)")}</span>
             </label>
         </li>
-        <li class="eol_welcome_mail_checkbox_hide">
+        <li class="field">
+            <label>
+                ${_("Responder a (opcional): ")}
+                <br/>
+                %if reply_to:
+                <input type="text" id="id_reply_to" name="reply_to" maxlength="520" size="75" value="${reply_to}" placeholder="correo@correo.cl">
+                %else:
+                <input type="text" id="id_reply_to" name="reply_to" maxlength="520" size="75" placeholder="correo@correo.cl">
+                %endif
+                <span class="tip">${_("(Ingrese el/los correos al que los estudiantes podrán responder. Si ingresa más de un correo separelos con una coma, ejemplo: correo1@correo.cl, correo2@correo.cl)")}</span>
+            </label>
+        </li>
+        <li>
             <label>
                 ${_("Message:")}
                 <div class="email-editor">
@@ -102,24 +93,23 @@ from openedx.core.djangolib.markup import HTML
             </label>
         </li>
     </ul>
-    <div class="submit-email-action eol_send_email_hide">
+    <div class="submit-email-action">
         <p class="copy">${_("We recommend sending learners no more than one email message per week. Before you send your email, review the text carefully and send it to yourself first, so that you can preview the formatting and make sure embedded images and links work correctly.")}</p>
     </div>
-    <div class="submit-email-warning eol_send_email_hide">
+    <div class="submit-email-warning">
         <p class="copy"><span style="color: red;"><b>${_("CAUTION!")}</b></span>
         ${_("When you select Send Email, your email message is added to the queue for sending, and cannot be cancelled.")}
         </p>
     </div>
     <br />
-    <input class="eol_send_email_hide" type="button" name="send" value="${_("Send Email")}" data-endpoint="${ section_data['send_email'] }" >
-    % if 'welcome-mail-save' in section_data:
-        <input class="eol_welcome_mail_hide" onclick="save_welcome_mail(this);" type="button" name="save" value="${_("Guardar Cambios")}" data-endpoint="${ section_data['welcome-mail-save'] }" >
-    % endif
+    <input type="button" name="send" value="${_("Send Email")}" data-endpoint="${ section_data['send_email'] }" >
+    
     <div class="request-response msg msg-confirm copy" id="request-response"></div>
-    <div id="request-response-error" class="request-response-error"></div>
+
+    <div class="request-response-error"></div>
 
     %if settings.FEATURES.get('ENABLE_INSTRUCTOR_BACKGROUND_TASKS'):
-    <div class="running-tasks-container action-type-container eol_send_email_hide">
+    <div class="running-tasks-container action-type-container">
         <hr>
         <h3 class="hd hd-3">${_("Pending Tasks")}</h3>
         <div class="running-tasks-section">
@@ -132,9 +122,9 @@ from openedx.core.djangolib.markup import HTML
     </div>
 
 
-    <hr class="eol_send_email_hide">
+    <hr>
 
-    <div class="vert-left email-background eol_send_email_hide" id="section-task-history">
+    <div class="vert-left email-background" id="section-task-history">
         <h3 class="hd hd-3">${_("Email Task History")}</h3>
         <div>
             <p>${_("To see the content of previously sent emails, click this button:")}</p>
