@@ -24,7 +24,7 @@ from lms.djangoapps.courseware.access import has_access
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
 from openedx.core.release import RELEASE_LINE
-from common.djangoapps.pipeline_mako import render_require_js_path_overrides
+from pipeline_mako import render_require_js_path_overrides
 
 %>
 <!DOCTYPE html>
@@ -34,7 +34,7 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <script async src="https://www.google.com/recaptcha/api.js?render=explicit"></script>
 ## Define a couple of helper functions to make life easier when
 ## embedding theme conditionals into templates. All inheriting
 ## templates have access to these functions, and we can import these
@@ -100,7 +100,7 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   % endif
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  % if disable_courseware_js:
+  % if disable_courseware_js or uses_pattern_library:
     <%static:js group='base_vendor'/>
     <%static:js group='base_application'/>
   % else:
@@ -143,15 +143,15 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   % if google_site_verification_id:
     <meta name="google-site-verification" content="${google_site_verification_id}" />
   % endif
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-S7JWW4C52W"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function ganalytics(){dataLayer.push(arguments);}
-  ganalytics('js', new Date());
-
-  ganalytics('config', 'G-S7JWW4C52W');
-</script>
+   <!-- Global site tag (gtag.js) - Google Analytics 
+	<script  async src="https://www.googletagmanager.com/gtag/js?id=G-LKB71H88LJ"></script>
+	<script>
+  		window.dataLayer = window.dataLayer || [];
+  		function ganalytic(){dataLayer.push(arguments);}
+  		ganalytic('js', new Date());
+  		ganalytic('config', 'G-LKB71H88LJ');
+	</script>
+  -->
   <meta name="openedx-release-line" content="${RELEASE_LINE}" />
 
 <% ga_acct = static.get_value("GOOGLE_ANALYTICS_ACCOUNT", settings.GOOGLE_ANALYTICS_ACCOUNT) %>
@@ -219,8 +219,8 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <img src="${static.url('virtual-labx/images/logo.png')}" alt="...">
-        ##<img src="https://cajalosandes.juniper.example.com/static/virtual-labx-cla/images/logo.b4c215d750a9.png">
+        <img src="${static.url('virtual-labx-theme/images/logo.png')}" alt="...">
+        ##<img src="https://cursos.virtual-labx.cl/static/virtual-labx-theme/images/logo.png">
         ##<button type="button" class="close" data-dismiss="modal" aria-label="Close">
         ##  <span aria-hidden="true">&times;</span>
         ##</button>
@@ -236,7 +236,6 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
   </div>
 </div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
   <%block name="footer_extra"/>
   <%block name="js_extra"/>
 
@@ -252,5 +251,5 @@ from common.djangoapps.pipeline_mako import render_require_js_path_overrides
 <%def name="login_query()">${
   u"?next={next}".format(
     next=urlquote_plus(login_redirect_url if login_redirect_url else request.path)
-  ) if (login_redirect_url or (request and not request.path.startswith("/logout"))) else ""
+  ) if (login_redirect_url or request) else ""
 }</%def>

@@ -29,21 +29,6 @@ header.global-header{
 .courses-container{
 	padding:16px;
 }
-@media (max-width:399px){
-	.global-header .header-logo a .logo{
-                width:70% !important;
-        }
-}
-@media (min-width:400px) and (max-width:650px){
-	.global-header .header-logo a .logo{
-                width:80% !important;
-        }
-}
-@media (min-width:651px) and (max-width:991px){
-        .global-header .header-logo a .logo{
-                width:60% !important;
-        }
-}
 @media (max-width:991px){
 	.home > header{
 		width:100%;
@@ -55,6 +40,7 @@ header.global-header{
 	}
 	.global-header .header-logo a .logo{
                 height: auto !important;
+		width:100% !important;
 		margin:0 !important;
 		float:unset !important;
         }
@@ -73,7 +59,7 @@ header.global-header{
 @media (min-width:992px) and (max-width:1180px){
 	body.is-authenticated .global-header .header-logo a .logo,.global-header.slim .header-logo a .logo{
 		max-width: 400px !important;
-                margin: 0 0 0 16px !important;
+                margin: 20px 0 0 16px !important;
 	}
 }
 @media (min-width:992px){
@@ -90,7 +76,7 @@ header.global-header{
 		margin:0 0 0 16px;
 	}
 	.global-header .header-logo a .logo{
-		max-width: 400px;
+		max-width: 580px;
                 height: auto;
 	}
 	.global-header .header-logo .course-header{
@@ -110,7 +96,7 @@ header.global-header{
 		color:#fff !important;
 	}
 	.wrapper-footer .wrapper-logo img{
-                max-width:400px !important;
+                max-width:580px !important;
 	}
 	
 }
@@ -528,8 +514,27 @@ body{
 	padding-bottom:0;
 }
 
-.global-header .header-logo a .logo{
-	height:60px;
+.content-wrapper .course-tabs{
+	margin: 0 16px !important;
+}
+nav.progress.wrapper-course-material{
+	    background-color: #fff;
+}
+.page-content-container,main#main{
+	margin: 0 16px !important;
+}
+.wrapper-preview-menu .preview-actions{
+        max-width:100% !important;
+}
+.wrapper-preview-menu .preview-actions .action-preview{
+        max-width:100% !important;
+}
+.wrapper-preview-menu .preview-actions .action-preview .action-preview-select{
+         max-width:100% !important;
+         margin:0 !important;
+}
+.xmodule_display.xmodule_HtmlBlock img{
+	    height: auto !important;
 }
 
 .help-vlabx{
@@ -580,9 +585,9 @@ body{
 	padding: 2rem 1rem;
 	font-size: 1.1em;
 	max-height: 80vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    line-height: 1.5;
+        overflow-y: auto;
+        overflow-x: hidden;
+        line-height: 1.5;
 }
 .help-modal-labx.modal .modal-dialog .modal-body a:hover{
 	text-decoration: none;
@@ -611,4 +616,6 @@ body{
     background-color: transparent !important;
     box-shadow: none;
 }
-
+.grecaptcha-badge{
+    z-index: 99;
+}
