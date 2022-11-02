@@ -157,17 +157,17 @@ from six import string_types
         else:
             protocol = 'http'
         cms_base = configuration_helpers.get_value('CMS_BASE', settings.CMS_BASE)
-        studio_base_url = protocol + '://' + cms_base
-        studio_url = studio_base_url
+        studio_base_url = protocol + '://' + cms_base        
+        studio_url2 = studio_base_url
         if course and course.id:
             if studio_base_url:
-                studio_url = "{base_url}/settings/details/{course_id}".format(
+                studio_url2 = "{base_url}/settings/details/{course_id}".format(
                     base_url=studio_base_url,
                     course_id=course.id,
                 )
         %>
         <div class="wrap-instructor-info studio-view">
-          <a class="instructor-info-action" href="${studio_url}">${_("View About Page in studio")}</a>
+          <a class="instructor-info-action" href="${studio_url2}">${_("View About Page in studio")}</a>
         </div>
       % endif
 
