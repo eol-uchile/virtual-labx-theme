@@ -42,6 +42,26 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
     catch(e){window.attachEvent("onload", $buo_f)}
   </script>
 % endif
+<style>
+    .alert-eol {
+        min-height: 25px;
+        line-height: 35px;
+        text-align: center;
+        background-color: hsl(19deg 92% 59%);
+        color: white;
+        border-bottom: 1px solid black;
+    }
+    .alert-eol-text{
+        display: inline-block;
+        vertical-align: middle;
+        line-height: normal;
+    }
+</style>
+<div class="alert-eol">
+    <span class="alert-eol-text">
+        El día jueves 10 de noviembre de 2022 desde las 02:00 am hasta las 05:00 am se realizará una mantención de la plataforma. <b>Durante ese periodo se pueden presentar intermitencias.</b>
+    </span>
+</div>
 <div class="labx-header-container">
 <header class="global-header  ${'slim' if course and user.is_authenticated else 'container'}">
     % if use_cookie_banner:
